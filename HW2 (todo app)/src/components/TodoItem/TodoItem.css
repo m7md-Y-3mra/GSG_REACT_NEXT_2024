@@ -7,6 +7,22 @@
   border-radius: var(--border-radius);
   box-shadow: var(--shadow-md);
 }
+.todo-item-container.priority-1 {
+  /* border-bottom-color:var(--priority-1-color); */
+  background-color: var(--priority-1-color);
+}
+.todo-item-container.priority-2 {
+  /* border-bottom-color: var(--priority-2-color); */
+  background-color: var(--priority-2-color);
+}
+.todo-item-container.priority-3 {
+  /* border-bottom-color: var(--priority-3-color); */
+  background-color: var(--priority-3-color);
+}
+.todo-item-container.priority-4 {
+  /* border-bottom-color: var(--priority-4-color); */
+  background-color: var(--priority-4-color);
+}
 @media only screen and (max-width: 425px) {
   .todo-item-container {
     padding: 6px;

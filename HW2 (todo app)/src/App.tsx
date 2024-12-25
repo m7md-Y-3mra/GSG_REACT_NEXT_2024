@@ -4,10 +4,11 @@ import Popup from "./components/Popup/Popup.tsx";
 import "./App.css";
 import ToggleButton from "./components/ToggleButton/ToggleButton.tsx";
 import { todoItem } from "./types.ts";
+import PriorityList from "./components/PriorityList/PriorityList.tsx";
 
-let nextId:number = JSON.parse(localStorage.getItem("nextId") || "0");
+let nextId: number = JSON.parse(localStorage.getItem("nextId") || "0");
 
-function getFromLocalStorage<T> (key: string) : T | null { 
+function getFromLocalStorage<T>(key: string): T | null {
   const item = localStorage.getItem(key);
   return item ? JSON.parse(item) as T : null;
 }
@@ -20,6 +21,7 @@ function App() {
   const [todos, setTodos] = useState<todoItem[]>(getFromLocalStorage<todoItem[]>("todos") || []);
   const [status, setStatus] = useState("all");
   const [todoLabel, setTodoLabel] = useState("");
+  const [priorityClass, setPriorityClass] = useState<number>(4);
   const [edittingTodo, setEdittingTodo] = useState<todoItem | null>();
   const [isDarkMode, setIsDarkMode] = useState<boolean>(
     getFromLocalStorage<boolean>("theme") || false
@@ -28,8 +30,10 @@ function App() {
   const [isNewUser, setIsNewUser] = useState<boolean>(
     getFromLocalStorage<boolean>("newUser") ?? true
   );
+
   // for edit popup input
   const [editedTodoText, setEditedTodoText] = useState("");
+  const [editedPriorityClass, setEditedPriorityClass] = useState<number>(priorityClass);
   const [isEditInputEmpty, setIsEditInputEmpty] = useState(false);
 
   useEffect(() => {
@@ -46,8 +50,6 @@ function App() {
   const filterTodosByStatus = useCallback(() => {
     switch (status) {
       case "completed":
-        console.log(todos.filter((todo) => todo.isCompleted));
-        
         return todos.filter((todo) => todo.isCompleted);
       case "notCompleted":
         return todos.filter((todo) => !todo.isCompleted);
@@ -56,11 +58,14 @@ function App() {
     }
   }, [status, todos]);
 
-  const handleAddTodo = useCallback(() => {
+  const handleAddTodo = () => {
     if (todoLabel.trim() !== "") {
+      console.log(priorityClass);
+
       const newTodo: todoItem = {
         id: nextId++,
         label: todoLabel.trim(),
+        priority: priorityClass,
         isCompleted: false,
       };
       setTodos((prevTodos) => [...prevTodos, newTodo]);
@@ -70,7 +75,7 @@ function App() {
       return;
     }
     setIsEmptyInput(true);
-  }, [todoLabel]);
+  };
 
   const handleDeleteTodo = useCallback(
     (todoId: number) => {
@@ -80,25 +85,30 @@ function App() {
     [todos]
   );
 
-  const handleUpdateTodo = useCallback(
-    (updatedLabel: string) => {
-      const updatedTodos = todos.map((todo) =>
-        todo.id === edittingTodo?.id ? { ...todo, label: updatedLabel } : todo
-      );
-      setTodos(updatedTodos);
-    },
-    [todos, edittingTodo]
-  );
+  const handleUpdateTodo = (updatedLabel: string) => {
+    const updatedTodos = todos.map((todo) =>
+      todo.id === edittingTodo?.id ? { ...todo, label: updatedLabel } : todo
+    );
+    setTodos(updatedTodos);
+  };
+
+  const handleUpdatePriorityClass = (updatedPriorityClass: number) => {
+    const updatedTodos = todos.map((todo) =>
+      todo.id === edittingTodo?.id ? { ...todo, priority: updatedPriorityClass } : todo
+    );
+    setTodos(updatedTodos);
+  };
 
   function handleCloseClick() {
     setEdittingTodo(null);
   }
 
-  function handleOkClick(updatedLabel: string) {
+  function handleOkClick(updatedLabel: string, editedPriorityClass: number) {
     if (updatedLabel.trim() === "") {
       return true;
     }
     handleUpdateTodo(updatedLabel);
+    handleUpdatePriorityClass(editedPriorityClass);
     setEdittingTodo(null);
     return false;
   }
@@ -128,9 +138,11 @@ function App() {
           <TodoItem
             key={todo.id}
             todo={todo}
+            prioriyClass={`priority-${todo.priority}`}
             onEdit={() => {
               setEdittingTodo(todo);
               setEditedTodoText(todo.label);
+              setEditedPriorityClass(priorityClass)
             }}
             onDelete={handleDeleteTodo}
             onToggleCompletion={handleToggleTodoCompletion}
@@ -167,6 +179,7 @@ function App() {
               onKeyDown={(e) => e.key === "Enter" && handleAddTodo()}
               className={isEmptyInput ? "error" : ""}
             />
+            <PriorityList activePriority={priorityClass} onClick={setPriorityClass} />
             <button onClick={handleAddTodo}>Add</button>
           </div>
         </div>
@@ -214,16 +227,17 @@ function App() {
                 }}
                 onKeyDown={(e) =>
                   e.key === "Enter" &&
-                  setIsEditInputEmpty(handleOkClick(editedTodoText))
+                  setIsEditInputEmpty(handleOkClick(editedTodoText, editedPriorityClass))
                 }
                 placeholder="Edit the todo ..."
                 value={editedTodoText}
                 className={isEditInputEmpty ? "error" : ""}
               />
+              <PriorityList activePriority={editedPriorityClass} onClick={setEditedPriorityClass} />
               <div className="popup-btns">
                 <button
-                  onClick={(e) =>
-                    setIsEditInputEmpty(handleOkClick(editedTodoText))
+                  onClick={() =>
+                    setIsEditInputEmpty(handleOkClick(editedTodoText, editedPriorityClass))
                   }
                 >
                   OK
@@ -252,6 +266,7 @@ function App() {
                 <li data-num="6">Dark/Light Mode</li>
                 <li data-num="7">Persistent Data</li>
                 <li data-num="8">Clear Completed Tasks</li>
+                <li data-num="9">Set Task Priority</li>
               </ul>
               <div className="popup-btns">
                 <button onClick={handleCloseEditClick}>Close</button>
