@@ -2,7 +2,6 @@ import { useCallback, useMemo } from "react";
 import { todoItem } from "../types";
 import { useLocalStorage } from "./useLocalStorage";
 
-
 export function useTodos() {
   const [todos, setTodos] = useLocalStorage<todoItem[]>("todos", []);
   const [nextId, setNextId] = useLocalStorage<number>("nextId", 0);
@@ -36,24 +35,23 @@ export function useTodos() {
     [setTodos]
   );
 
-  const updateTodoDetails = (
-    editingTodo: todoItem | null,
-    updatedLabel: string,
-    updatedPriority: number
-  ) => {
-    const updatedTodos = todos.map((todo) =>
-      todo.id === editingTodo?.id
-        ? { ...todo, label: updatedLabel, priority: updatedPriority }
-        : todo
-    );
-    setTodos(updatedTodos);
-  };
+  const updateTodoDetails = useCallback(
+    (editingTodoId: number, updatedLabel: string, updatedPriority: number) => {
+      const updatedTodos = todos.map((todo) =>
+        todo.id === editingTodoId
+          ? { ...todo, label: updatedLabel, priority: updatedPriority }
+          : todo
+      );
+      setTodos(updatedTodos);
+    },
+    [todos, setTodos]
+  );
 
   const completedTodos = useMemo(
     () => todos.filter((todo) => todo.isCompleted),
     [todos]
   );
-  
+
   const notCompletedTodos = useMemo(
     () => todos.filter((todo) => !todo.isCompleted),
     [todos]

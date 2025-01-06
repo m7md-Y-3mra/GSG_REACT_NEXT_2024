@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import TodoItem from "../TodoItem/TodoItem";
 import { todoItem } from "../../types";
 
@@ -12,29 +12,21 @@ interface TodoList {
 }
 
 export default function TodoList({ status, startEditing, deleteTodo, toggleTodoCompletion, filterTodosByStatus, allTodosNo }: TodoList) {
-  const renderTodosList = useMemo(() => {
-    return filterTodosByStatus(status).map((todo) => {
-      return (
+  const memoizedTodos = useMemo(() => filterTodosByStatus(status), [filterTodosByStatus, status]);
+
+  return allTodosNo > 0 ? (
+    <div className="todo-list">
+      {memoizedTodos.map((todo) => (
         <TodoItem
           key={todo.id}
-          todo={todo}
+          todo={todo} 
           prioriyClass={`priority-${todo.priority}`}
-          onEdit={() => startEditing(todo)}
+          onEdit={startEditing}
           onDelete={deleteTodo}
           onToggleCompletion={toggleTodoCompletion}
         />
-      );
-    });
-  }, [
-    deleteTodo,
-    toggleTodoCompletion,
-    filterTodosByStatus,
-    status,
-    startEditing,
-  ]);
-
-  return allTodosNo > 0 ? (
-    <div className="todo-list ">{renderTodosList}</div>
+      ))}
+    </div>
   ) : (
     <div className="empty-todo-list">No todos</div>
   );

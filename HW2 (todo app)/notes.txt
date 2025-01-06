@@ -1,4 +1,4 @@
-Design
+esign
 1. improve the style of priority 
     - change the shape of styling of project
     - I duplicate the style of button in form with .priority-btn class
@@ -9,7 +9,7 @@ Design
 
 3. 
 ---------------------------------------------
-Logic
+**- Logic -**
 1. divide the code in component
 2. ensure the code respect the concept of event
 3. make a code more clean (new names I add)
@@ -20,6 +20,8 @@ Logic
     - use enum for all completed notCompleted or union
 7. use Rect.memo in TodoItem and handle new referance of todo in every render
 8. I think can use useRef in editing todo
+9. study how can use useMemo and useCallback in new component (TodoList, EditTodoPopup)
+    - it use useMemo in redner function but can use React.memo in all function
 
 -----------------------
 clear all comments

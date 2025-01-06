@@ -1,12 +1,13 @@
 import "./TodoItem.css";
 import { Delete, Edit } from "@mui/icons-material";
 import { todoItem } from "../../types";
+import {memo} from "react";
 
 interface IProps {
   todo: todoItem,
   prioriyClass: string,
   onDelete: (todoId: number) => void,
-  onEdit: () => void,
+  onEdit: (todo: todoItem) => void,
   onToggleCompletion: (todoId: number) => void
 }
 
@@ -16,7 +17,7 @@ function TodoItem({
   onDelete,
   onEdit,
   onToggleCompletion,
-}: IProps) {  
+}: IProps) {    
   return (
     <div className={`todo-item-container ${prioriyClass}`}>
       <div className="todo-item">
@@ -27,10 +28,10 @@ function TodoItem({
       </div>
       <div className="todo-actions">
         <button onClick={() => onDelete(todo.id)}>{<Delete />}</button>
-        <button onClick={() => onEdit()}>{<Edit />}</button>
+        <button onClick={() => onEdit(todo)}>{<Edit />}</button>
       </div>
     </div>
   );
 }
 
-export default TodoItem;
+export default memo(TodoItem);

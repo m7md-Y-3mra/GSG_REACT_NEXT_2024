@@ -3,23 +3,21 @@ import Popup from "../Popup/Popup";
 import PriorityList from "../PriorityList/PriorityList";
 import { todoItem } from "../../types";
 
-interface todoPopup {
-  editingTodo: todoItem | null;
+interface TodoPopup {
+  editingTodo : todoItem | null;
   stopEditing: () => void;
-  updateTodoDetails: (editingTodo: todoItem | null, updatedLabel: string, updatedPriority: number) => void;
+  updateTodoDetails: (editingTodoId: number, updatedLabel: string, updatedPriority: number) => void;
   setEditingTodo: React.Dispatch<React.SetStateAction<todoItem | null>>
-
 }
 
-export default function EditTodoPopup({editingTodo, stopEditing, updateTodoDetails, setEditingTodo}: todoPopup) {
-  const [isEditInputEmpty, setIsEditInputEmpty] = useState(false);
+function EditTodoPopup({editingTodo, stopEditing, updateTodoDetails, setEditingTodo}: TodoPopup) {
   
-
+  const [isInputEmpty, setIsInputEmpty] = useState(false);
   function handleOkClick(updatedLabel: string, editedPriorityClass: number) {
     if (updatedLabel.trim() === "") {
       return true;
     }
-    updateTodoDetails(editingTodo, updatedLabel, editedPriorityClass);
+    updateTodoDetails(editingTodo?.id ?? 0, updatedLabel, editedPriorityClass);
     stopEditing();
     return false;
   }
@@ -32,17 +30,17 @@ export default function EditTodoPopup({editingTodo, stopEditing, updateTodoDetai
             <input
               onChange={(e) => {
                 setEditingTodo({ ...editingTodo, label: e.target.value });
-                setIsEditInputEmpty(false);
+                setIsInputEmpty(false);
               }}
               onKeyDown={(e) =>
                 e.key === "Enter" &&
-                setIsEditInputEmpty(
+                setIsInputEmpty(
                   handleOkClick(editingTodo.label, editingTodo.priority)
                 )
               }
               placeholder="Edit the todo ..."
               value={editingTodo.label}
-              className={isEditInputEmpty ? "error" : ""}
+              className={isInputEmpty ? "error" : ""}
             />
             <PriorityList
               activePriority={editingTodo.priority}
@@ -53,7 +51,7 @@ export default function EditTodoPopup({editingTodo, stopEditing, updateTodoDetai
             <div className="popup-btns">
               <button
                 onClick={() =>
-                  setIsEditInputEmpty(
+                  setIsInputEmpty(
                     handleOkClick(editingTodo.label, editingTodo.priority)
                   )
                 }
@@ -68,3 +66,5 @@ export default function EditTodoPopup({editingTodo, stopEditing, updateTodoDetai
     </div>
   );
 }
+
+export default EditTodoPopup;

@@ -13,7 +13,7 @@ function App() {
   const todos = useTodos();
   const [isDarkMode, toggleDarkMode] = useDarkMode();
   const [status, setStatus] = useState("all");
-  const { editingTodo, stopEditing, setEditingTodo, startEditing } =
+  const { editingTodo, stopEditing, startEditing, setEditingTodo } =
     useEditingTodo();
 
   return (
@@ -70,9 +70,9 @@ function App() {
 
       <EditTodoPopup
         editingTodo={editingTodo}
-        setEditingTodo={setEditingTodo}
         stopEditing={stopEditing}
         updateTodoDetails={todos.updateTodoDetails}
+        setEditingTodo={setEditingTodo}
       />
       <FeaturesPopup />
     </div>
