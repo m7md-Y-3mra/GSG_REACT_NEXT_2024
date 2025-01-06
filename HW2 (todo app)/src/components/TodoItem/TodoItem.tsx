@@ -10,13 +10,13 @@ interface IProps {
   onToggleCompletion: (todoId: number) => void
 }
 
-export default function TodoItem({
+function TodoItem({
   todo,
   prioriyClass,
   onDelete,
   onEdit,
   onToggleCompletion,
-}: IProps) {
+}: IProps) {  
   return (
     <div className={`todo-item-container ${prioriyClass}`}>
       <div className="todo-item">
@@ -32,3 +32,5 @@ export default function TodoItem({
     </div>
   );
 }
+
+export default TodoItem;

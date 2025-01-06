@@ -1,17 +1,17 @@
 import "./ToggleButton.css";
 
 interface IProps {
-  setDarkMode: (darkMode: boolean) => void,
-  darkMode: boolean
+  setDarkMode: () => void;
+  darkMode: boolean;
 }
 
-export default function ToggleButton({ setDarkMode, darkMode } : IProps) {
+export default function ToggleButton({ setDarkMode, darkMode }: IProps) {
   return (
     <label id="theme-toggle-button">
       <input
         type="checkbox"
         id="toggle"
-        onChange={(e) => setDarkMode(!e.target.checked)}
+        onChange={setDarkMode}
         defaultChecked={!darkMode}
       />
       <svg viewBox="0 0 69.667 44" xmlns="http://www.w3.org/2000/svg">

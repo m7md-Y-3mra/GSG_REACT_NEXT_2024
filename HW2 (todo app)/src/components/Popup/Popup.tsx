@@ -1,6 +1,12 @@
 import "./Popup.css";
 import { Close } from "@mui/icons-material";
-export default function Popup({ onClose, header, className, children }) {
+interface IProps {
+  onClose: () => void;
+  header: string;
+  className: string;
+  children: any
+}
+export default function Popup({ onClose, header, className, children } : IProps) {
   return (
     <div className={`popup ${className}`}>
       <div className="header">
