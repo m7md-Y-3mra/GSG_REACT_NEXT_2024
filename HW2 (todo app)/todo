@@ -1,4 +1,4 @@
-esign
+Design
 1. improve the style of priority 
     - change the shape of styling of project
     - I duplicate the style of button in form with .priority-btn class
@@ -7,7 +7,7 @@ esign
 2. I made a file of priority item to style and don't add anything to item       
     - what is the best case to handle this case
 
-3. 
+3. because I sperate the component, I need to sperate sytles for every component
 ---------------------------------------------
 **- Logic -**
 1. divide the code in component
@@ -29,6 +29,4 @@ clear all comments
 ==> editing todo **
 ==> useCallback and useMemo
 ==> split every compoent in file
-===> why must pass addTodo form app to todoForm
-
-
+===> why must pass addTodo form app to todoForm 

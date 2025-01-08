@@ -1,23 +1,9 @@
-import { useCallback, useEffect, useMemo, useReducer } from "react";
-import { todoItem } from "../types";
-import { usePersistentState } from "./usePersistentState";
-import { todoReducer, TodoState, TodoActionKind } from "../reducers/todosReducer";
+import { useCallback, useMemo } from "react";
+import { todoReducer, TodoState, TodoActionKind,TodoAction } from "../reducers/todosReducer";
 import { usePersistentReducer } from "./usePersistentReducer";
-import { TodoAction } from "../reducers/todosReducer2";
+import {  } from "../reducers/todosReducer";
 
 export function useTodos() {
-  // const [todos, setTodos] = useLocalStorage<todoItem[]>("todos", []);
-  // const [nextId, setNextId] = useLocalStorage<number>("nextId", 0);
-
-  // const [state, dispatch] = useReducer(todoReducer, { todos: [], nextId: 0 }, (initial) => {
-  //   const stored = localStorage.getItem("todos");
-  //   return stored ? JSON.parse(stored) : initial;
-  // });
-
-  // useEffect(() => {
-  //   localStorage.setItem("todos", JSON.stringify(state));
-  // }, [state]);
-
   const [state, dispatch] = usePersistentReducer<TodoState, TodoAction>("todos", todoReducer, { todos: [], nextId: 0 });
 
   const addTodo = (label: string, priority: number) => {
@@ -58,8 +44,6 @@ export function useTodos() {
     () => state.todos.filter((todo) => !todo.isCompleted),
     [state.todos]
   );
-
-  // const allTodos = useMemo(() => dispatch({ type: "FILTER_ALL_TODOS" }), []);
 
   const filterTodosByStatus = useCallback(
     (status: string) => {

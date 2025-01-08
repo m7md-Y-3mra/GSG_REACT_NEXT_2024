@@ -6,13 +6,10 @@ export enum TodoActionKind {
   TOGGLE = "TOGGLE_TODO",
   UPDATE = "UPDAET_TODO",
   CLEAR = "CLEAR_COMPLETED",
-  COMPLETED_TODOS = "FILTER_COMPLETED_TODOS",
-  NOT_COMPLETED_TODOS = "FILTER_NOT_COMPLETED_TODOS",
-  ALL_TODOS = "FILTER_ALL_TODOS",
   SET_STATE = "SET_STATE",
 }
 
-type TodosAction =
+export type TodoAction =
   | {
       type: TodoActionKind.ADD;
       payload: { label: string; priority: number };
@@ -40,15 +37,6 @@ type TodosAction =
       };
     }
   | {
-      type: TodoActionKind.COMPLETED_TODOS;
-    }
-  | {
-      type: TodoActionKind.NOT_COMPLETED_TODOS;
-    }
-  | {
-      type: TodoActionKind.ALL_TODOS;
-    }
-  | {
       type: TodoActionKind.CLEAR;
     };
 
@@ -57,7 +45,7 @@ export type TodoState = {
   nextId: number;
 };
 
-export function todoReducer(state: TodoState, action: TodosAction): TodoState {
+export function todoReducer(state: TodoState, action: TodoAction): TodoState {
   switch (action.type) {
     case TodoActionKind.ADD: {
       const newTodo: todoItem = {
@@ -99,16 +87,6 @@ export function todoReducer(state: TodoState, action: TodosAction): TodoState {
         ),
       };
     case TodoActionKind.CLEAR:
-      return {
-        ...state,
-        todos: state.todos.filter((todo) => !todo.isCompleted),
-      };
-    case TodoActionKind.COMPLETED_TODOS:
-      return {
-        ...state,
-        todos: state.todos.filter((todo) => todo.isCompleted),
-      };
-    case TodoActionKind.NOT_COMPLETED_TODOS:
       return {
         ...state,
         todos: state.todos.filter((todo) => !todo.isCompleted),
