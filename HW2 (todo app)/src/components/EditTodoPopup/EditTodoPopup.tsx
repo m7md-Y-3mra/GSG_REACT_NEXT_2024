@@ -13,6 +13,7 @@ interface TodoPopup {
 function EditTodoPopup({editingTodo, stopEditing, updateTodoDetails, setEditingTodo}: TodoPopup) {
   
   const [isInputEmpty, setIsInputEmpty] = useState(false);
+  
   function handleOkClick(updatedLabel: string, editedPriorityClass: number) {
     if (updatedLabel.trim() === "") {
       return true;

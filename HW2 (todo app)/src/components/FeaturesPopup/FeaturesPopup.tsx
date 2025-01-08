@@ -1,8 +1,8 @@
-import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { usePersistentState } from "../../hooks/usePersistentState";
 import Popup from "../Popup/Popup";
 
 export default function FeaturesPopup() {
-  const [isNewUser, setIsNewUser] = useLocalStorage<boolean>("newUser", true);
+  const [isNewUser, setIsNewUser] = usePersistentState<boolean>("newUser", true);
 
   function handleCloseEditClick() {
     setIsNewUser(false);

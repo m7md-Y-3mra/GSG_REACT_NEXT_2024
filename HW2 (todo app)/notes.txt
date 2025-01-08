@@ -22,7 +22,7 @@ esign
 8. I think can use useRef in editing todo
 9. study how can use useMemo and useCallback in new component (TodoList, EditTodoPopup)
     - it use useMemo in redner function but can use React.memo in all function
-
+10. managing form inputs => using custom hook for it
 -----------------------
 clear all comments
 

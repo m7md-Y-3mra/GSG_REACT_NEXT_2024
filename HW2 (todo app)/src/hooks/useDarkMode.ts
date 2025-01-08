@@ -1,7 +1,7 @@
-import { useLocalStorage } from "./useLocalStorage";
+import { usePersistentState } from "./usePersistentState";
 
 export function useDarkMode() :[boolean, () => void] {
-    const [isDarkMode, setIsDarkMode] = useLocalStorage<boolean>("theme", false);
+    const [isDarkMode, setIsDarkMode] = usePersistentState<boolean>("theme", false);
 
     const toggleDarkMode = () => {
         setIsDarkMode((prevMode) => !prevMode);
