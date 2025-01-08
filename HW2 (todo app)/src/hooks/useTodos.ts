@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from "react";
-import { todoReducer, TodoState, TodoActionKind,TodoAction } from "../reducers/todosReducer";
+import { todoReducer, TodoState, TodoActionKind } from "../reducers/todosReducer";
 import { usePersistentReducer } from "./usePersistentReducer";
-import {  } from "../reducers/todosReducer";
+import { TodoAction } from "../reducers/todosReducer";
 
 export function useTodos() {
   const [state, dispatch] = usePersistentReducer<TodoState, TodoAction>("todos", todoReducer, { todos: [], nextId: 0 });

@@ -6,7 +6,6 @@ export enum TodoActionKind {
   TOGGLE = "TOGGLE_TODO",
   UPDATE = "UPDAET_TODO",
   CLEAR = "CLEAR_COMPLETED",
-  SET_STATE = "SET_STATE",
 }
 
 export type TodoAction =
@@ -28,12 +27,6 @@ export type TodoAction =
         id: number;
         label: string;
         priority: number;
-      };
-    }
-  | {
-      type: TodoActionKind.SET_STATE;
-      payload: {
-        todos: TodoState;
       };
     }
   | {
@@ -90,10 +83,6 @@ export function todoReducer(state: TodoState, action: TodoAction): TodoState {
       return {
         ...state,
         todos: state.todos.filter((todo) => !todo.isCompleted),
-      };
-    case TodoActionKind.SET_STATE:
-      return {
-        ...action.payload.todos,
       };
     default:
       return state;
