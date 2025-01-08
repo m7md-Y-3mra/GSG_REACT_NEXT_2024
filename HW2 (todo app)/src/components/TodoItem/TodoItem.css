@@ -1,0 +1,245 @@
+.todo-item-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px;
+  background: var(--theme-bg-color);
+  border-bottom: solid 2px var(--primary-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+}
+.todo-item-container.priority-1 {
+  /* border-bottom-color:var(--priority-1-color); */
+  background-color: var(--priority-1-color);
+}
+.todo-item-container.priority-2 {
+  /* border-bottom-color: var(--priority-2-color); */
+  background-color: var(--priority-2-color);
+}
+.todo-item-container.priority-3 {
+  /* border-bottom-color: var(--priority-3-color); */
+  background-color: var(--priority-3-color);
+}
+.todo-item-container.priority-4 {
+  /* border-bottom-color: var(--priority-4-color); */
+  background-color: var(--priority-4-color);
+}
+@media only screen and (max-width: 425px) {
+  .todo-item-container {
+    padding: 6px;
+  }
+}
+.todo-item {
+  flex-grow: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  overflow: hidden;
+}
+.todo-item label {
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  position: relative;
+  padding-left: 15px;
+  word-break: break-all;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+@media only screen and (max-width: 425px) {
+  .todo-item label {
+    font-size: 15px;
+  }
+}
+.todo-item label > span {
+  position: relative;
+  transition: var(--transition);
+  color: var(--theme-color);
+}
+.todo-item label > span::before,
+.todo-item label > span::after {
+  content: "";
+  position: absolute;
+}
+.todo-item label > span::before {
+  height: 2px;
+  width: 8px;
+  top: 50%;
+  left: -27px;
+  background: var(--primary-color);
+  border-radius: 2px;
+  transition: var(--transition);
+}
+.todo-item label > span:after {
+  height: 4px;
+  width: 4px;
+  top: 8px;
+  left: -25px;
+  border-radius: 50%;
+}
+.todo-item input[type="checkbox"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  position: relative;
+  height: 18px;
+  width: 18px;
+  cursor: pointer;
+  background: transparent;
+  display: grid;
+  align-items: center;
+}
+.todo-item input[type="checkbox"]::before,
+.todo-item input[type="checkbox"]::after {
+  content: "";
+  position: absolute;
+  height: 2px;
+  background: var(--primary-color);
+  border-radius: 2px;
+}
+.todo-item input[type="checkbox"]::before {
+  width: 0px;
+  right: 50%;
+  transform-origin: right bottom;
+}
+.todo-item input[type="checkbox"]::after {
+  width: 0px;
+  left: 20%;
+  transform-origin: left bottom;
+}
+.todo-item input[type="checkbox"]:checked::before {
+  animation: check-01 0.4s ease forwards;
+}
+.todo-item input[type="checkbox"]:checked::after {
+  animation: check-02 0.4s ease forwards;
+}
+.todo-item input[type="checkbox"]:checked + label > span {
+  color: var(--disabled);
+  animation: move 0.3s ease 0.1s forwards;
+}
+.todo-item input[type="checkbox"]:checked + label > span::before {
+  background: var(--disabled);
+  animation: slice 0.4s ease forwards;
+}
+.todo-item input[type="checkbox"]:checked + label > span::after {
+  animation: firework 0.5s ease forwards 0.1s;
+}
+.todo-actions {
+  display: none;
+  gap: 5px;
+  transition: var(--transition);
+}
+.todo-item-container:hover .todo-actions {
+  display: flex;
+}
+.todo-actions button {
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+}
+.todo-actions button:hover {
+  opacity: 0.5;
+}
+.todo-actions button svg {
+  width: 17px;
+  height: 17px;
+}
+.todo-actions button:first-child svg {
+  fill: var(--dangerous-color);
+}
+.todo-actions button:last-child svg {
+  fill: var(--edit-color);
+}
+@keyframes move {
+  50% {
+    padding-left: 8px;
+    padding-right: 0px;
+  }
+
+  100% {
+    padding-right: 4px;
+  }
+}
+
+@keyframes slice {
+  60% {
+    width: 100%;
+    left: 4px;
+  }
+
+  100% {
+    width: 100%;
+    left: -2px;
+    padding-left: 0;
+  }
+}
+
+@keyframes check-01 {
+  0% {
+    width: 4px;
+    top: auto;
+    transform: rotate(0);
+  }
+
+  50% {
+    width: 0px;
+    top: auto;
+    transform: rotate(0);
+  }
+
+  51% {
+    width: 0px;
+    top: 50%;
+    transform: rotate(45deg);
+  }
+
+  100% {
+    width: 5px;
+    top: 50%;
+    transform: rotate(45deg) translateY(200%);
+  }
+}
+
+@keyframes check-02 {
+  0% {
+    width: 4px;
+    top: auto;
+    transform: rotate(0);
+  }
+
+  50% {
+    width: 0px;
+    top: auto;
+    transform: rotate(0);
+  }
+
+  51% {
+    width: 0px;
+    top: 50%;
+    transform: rotate(-45deg);
+  }
+
+  100% {
+    width: 10px;
+    top: 50%;
+    transform: rotate(-45deg) translateY(200%);
+  }
+}
+
+@keyframes firework {
+  0% {
+    opacity: 1;
+    box-shadow: 0 0 0 -2px #4f29f0, 0 0 0 -2px #4f29f0, 0 0 0 -2px #4f29f0,
+      0 0 0 -2px #4f29f0, 0 0 0 -2px #4f29f0, 0 0 0 -2px #4f29f0;
+  }
+
+  30% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    box-shadow: 0 -15px 0 0px #4f29f0, 14px -8px 0 0px #4f29f0,
+      14px 8px 0 0px #4f29f0, 0 15px 0 0px #4f29f0, -14px 8px 0 0px #4f29f0,
+      -14px -8px 0 0px #4f29f0;
+  }
+}

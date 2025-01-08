@@ -1,0 +1,32 @@
+.priority-btns {
+    display: flex;
+    /* gap: 2px; */
+    justify-content: center;
+}
+.priority-btns button {
+    /* border-radius: var(--border-radius); */
+    border: 1px solid transparent;
+    padding: 6px 10px;
+    font-size: 15px;
+    color: white;
+    transition: var(--transition);
+}
+.priority-btns .priority-btn-1 {
+    background-color: var(--priority-1-color);
+}
+.priority-btns .priority-btn-2 {
+    background-color: var(--priority-2-color) ;
+}
+.priority-btns .priority-btn-3 {
+    background-color: var(--priority-3-color);
+}
+.priority-btns .priority-btn-4 {
+    background-color: var(--priority-4-color);
+}
+.priority-btns .active {
+    border-color: white;
+    opacity: 0.5;
+    box-shadow: var(--shadow-md);
+}
+
+
