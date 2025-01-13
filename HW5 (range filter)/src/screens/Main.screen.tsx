@@ -34,7 +34,7 @@ const Main = (props: IProps) => {
     const graduated = params.get("graduated");
     const courses = params.getAll("courses");
     const min = Number(params.get("min"));
-    const max = Number(params.get("max") || 20);
+    const max = Number(params.get("max") || 20);    
 
     if (query) {
       setFilteredList(
