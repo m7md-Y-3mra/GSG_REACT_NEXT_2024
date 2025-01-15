@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+    /* Global styles or resets */
+    
+    html {
+      font-size: 16px;
+      line-height: 1.5;
+      font-family: 'Inter', sans-serif;
+    }
+  
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f7fafc;
+      color: #333;
+    }
+  
+    h1, h2, h3, h4, h5, h6 {
+      margin: 0;
+      font-weight: bold;
+    }
+  
+    a {
+      color: #3182ce;
+      text-decoration: none;
+    }
+  
+    a:hover {
+      text-decoration: underline;
+    }
+}
+  
+@layer components {
+    .prayer-name {
+      @apply font-bold text-3xl lg:text-4xl text-primary;
+    }
+    .prayer-time {
+      @apply text-xl lg:text-[20px] font-bold text-center text-black/70;
+    }
+}
+  
