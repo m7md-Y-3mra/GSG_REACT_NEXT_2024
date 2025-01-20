@@ -12,6 +12,8 @@ import {
 } from "@mui/material";
 import Container from "@mui/material/Container";
 import Divider from "@mui/material/Divider";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const theme = createTheme({
   typography: {
@@ -20,6 +22,35 @@ const theme = createTheme({
 });
 
 function App() {
+  const [data, setData] = useState({
+    temp: '',
+    desc: '',
+    min: '',
+    max: '',
+    icon: ''
+  });
+  useEffect(() => {
+    let cancelAxios = null;
+    const url = 'https://api.openweathermap.org/data/2.5/weather?lat=31.50161&lon=34.46672&appid=ff99272d424f10a912a593816ccfb15c';
+    axios.get(url, {
+      cancelToken: new axios.CancelToken(c => cancelAxios = c)
+    })
+    .then(res => {
+      // console.log(res.data.main.temp - 272.15);
+      setData({
+        temp: res.data.main.temp - 272.15,
+        desc: res.data.weather[0].description,
+        min: res.data.main.temp_min - 272.15,
+        max: res.data.main.temp_max - 272.15,
+        icon: res.data.weather[0].icon
+      })  
+      console.log(res.data.main.temp - 272.15)  
+    })
+
+    return () => {
+      cancelAxios();
+    }
+  }, [])
   return (
     <>
       <ThemeProvider theme={theme}>
@@ -58,13 +89,14 @@ function App() {
                       alignItems: "center",
                     }}
                   >
-                    <Typography variant="h1">28</Typography>
+                    <Typography variant="h1">{Math.round(data.temp)}</Typography>
                     {/* TODO: TEMP IMAGE */}
+                    <img src={`https://openweathermap.org/img/wn/${data.icon}@2x.png`} alt="weather-icon" />
 
-                    <Typography variant="body1">borden clouds</Typography>
+                    <Typography variant="body1">{data.desc}</Typography>
                     <Box sx={{ display: "flex", gap: "15px" }}>
-                      <Typography variant="h6">Min : 24</Typography>
-                      <Typography variant="h6">Max : 24</Typography>
+                      <Typography variant="h6">Min : {data.min}</Typography>
+                      <Typography variant="h6">Max : {data.max}</Typography>
                     </Box>
                   </Box>
                 </Box>
