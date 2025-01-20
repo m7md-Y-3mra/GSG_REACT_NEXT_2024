@@ -1,0 +1,4 @@
+1. clean up
+2. momnet vs js time
+3. async and await
+4. the best place to delcare the date

@@ -14,6 +14,10 @@ import Container from "@mui/material/Container";
 import Divider from "@mui/material/Divider";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import moment from 'moment';
+import 'moment/locale/ar'
+import 'moment/min/locales'
+moment.locale('ar')
 
 const theme = createTheme({
   typography: {
@@ -21,6 +25,7 @@ const theme = createTheme({
   },
 });
 
+const date = moment().format('MMMM Do YYYY, h:mm:ss a');
 function App() {
   const [data, setData] = useState({
     temp: '',
@@ -29,6 +34,7 @@ function App() {
     max: '',
     icon: ''
   });
+
   useEffect(() => {
     let cancelAxios = null;
     const url = 'https://api.openweathermap.org/data/2.5/weather?lat=31.50161&lon=34.46672&appid=ff99272d424f10a912a593816ccfb15c';
@@ -76,7 +82,7 @@ function App() {
                       Gaza
                     </Typography>
                     <Typography variant="h5" gutterBottom>
-                      Tuesday - 22 / 10
+                      {date}
                     </Typography>
                   </Box>
 
@@ -90,7 +96,6 @@ function App() {
                     }}
                   >
                     <Typography variant="h1">{Math.round(data.temp)}</Typography>
-                    {/* TODO: TEMP IMAGE */}
                     <img src={`https://openweathermap.org/img/wn/${data.icon}@2x.png`} alt="weather-icon" />
 
                     <Typography variant="body1">{data.desc}</Typography>
