@@ -15,9 +15,10 @@ import Divider from "@mui/material/Divider";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import moment from 'moment';
-import 'moment/locale/ar'
-import 'moment/min/locales'
-moment.locale('ar')
+import "moment/dist/locale/ar";
+import "moment/locale/en-gb";
+// moment.locale('ar')
+import { useTranslation } from "react-i18next";
 
 const theme = createTheme({
   typography: {
@@ -25,8 +26,9 @@ const theme = createTheme({
   },
 });
 
-const date = moment().format('MMMM Do YYYY, h:mm:ss a');
 function App() {
+  const {t, i18n } = useTranslation();
+  const [date, setDate] = useState(moment().format('MMMM Do YYYY, h:mm:ss a'))
   const [data, setData] = useState({
     temp: '',
     desc: '',
@@ -34,6 +36,11 @@ function App() {
     max: '',
     icon: ''
   });
+  const [isArabic, setIsArabic] = useState(false);
+
+  useEffect(() => {
+    document.body.dir = isArabic ? 'rtl' : 'ltr';
+  }, [isArabic])
 
   useEffect(() => {
     let cancelAxios = null;
@@ -42,7 +49,6 @@ function App() {
       cancelToken: new axios.CancelToken(c => cancelAxios = c)
     })
     .then(res => {
-      // console.log(res.data.main.temp - 272.15);
       setData({
         temp: res.data.main.temp - 272.15,
         desc: res.data.weather[0].description,
@@ -50,13 +56,19 @@ function App() {
         max: res.data.main.temp_max - 272.15,
         icon: res.data.weather[0].icon
       })  
-      console.log(res.data.main.temp - 272.15)  
     })
 
     return () => {
       cancelAxios();
     }
   }, [])
+
+  const handleLanguageChange = () => {
+    setIsArabic((prev) => !prev);
+    i18n.changeLanguage(isArabic ? 'en' : 'ar');
+    moment.locale(isArabic ? 'en' : 'ar')
+    setDate(moment().format('MMMM Do YYYY, h:mm:ss a'))
+  }
   return (
     <>
       <ThemeProvider theme={theme}>
@@ -79,7 +91,7 @@ function App() {
                     }}
                   >
                     <Typography variant="h3" fontWeight={"600"} gutterBottom>
-                      Gaza
+                      {t("Gaza")}
                     </Typography>
                     <Typography variant="h5" gutterBottom>
                       {date}
@@ -98,23 +110,22 @@ function App() {
                     <Typography variant="h1">{Math.round(data.temp)}</Typography>
                     <img src={`https://openweathermap.org/img/wn/${data.icon}@2x.png`} alt="weather-icon" />
 
-                    <Typography variant="body1">{data.desc}</Typography>
+                    <Typography variant="body1">{t(data.desc)}</Typography>
                     <Box sx={{ display: "flex", gap: "15px" }}>
-                      <Typography variant="h6">Min : {data.min}</Typography>
-                      <Typography variant="h6">Max : {data.max}</Typography>
+                      <Typography variant="h6">{t("Min")} : {data.min}</Typography>
+                      <Typography variant="h6">{t("Max")} : {data.max}</Typography>
                     </Box>
                   </Box>
                 </Box>
               </CardContent>
             </Card>
             <Box display="flex" alignItems="center" gap={1}>
-              <Typography variant="body1">English</Typography>
+              <Typography variant="body1">{t("English")}</Typography>
               <FormControlLabel
                 control={
-                  // <Switch checked={isArabic} onChange={handleLanguageChange} />
-                  <Switch />
+                  <Switch checked={isArabic} onChange={handleLanguageChange} />
                 }
-                label="Arabic"
+                label={t("Arabic")}
                 labelPlacement="end"
               />
             </Box>
