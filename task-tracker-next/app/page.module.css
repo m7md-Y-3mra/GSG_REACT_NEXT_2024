@@ -1,0 +1,14 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #ddd;
+  padding: 20px;
+  gap: 10px;
+  border-radius: 6px;
+  box-shadow: var(--shadow); 
+}
+
+.title {
+  color: var(--primary-color)
+}
