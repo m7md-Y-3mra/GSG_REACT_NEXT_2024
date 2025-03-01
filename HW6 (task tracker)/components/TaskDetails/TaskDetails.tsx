@@ -32,6 +32,7 @@ const TaskDetails: FC<TaskDetailsProps> = ({ todo }) => {
           alt={todo?.completed ? "Completed task" : "Pending task"}
           width={150}
           height={150}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
         <div>{todo?.id}</div>
         <div onClick={handleCopyTitle}>{todo?.title}</div>
