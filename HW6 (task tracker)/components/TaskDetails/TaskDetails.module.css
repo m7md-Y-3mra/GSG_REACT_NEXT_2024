@@ -5,11 +5,15 @@
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  background-color: #fff;
   padding: 20px;
   border-radius: 6px;
   box-shadow: var(--shadow);
   text-align: center;
+}
+
+.btns {
+  display: flex;
+  gap: 5px
 }
 
 .link {
@@ -21,4 +25,6 @@
   border-radius: 6px;
   margin-top: 7px;
   text-align: center;
+  font-family: inherit;
+  font-size: 15px
 }

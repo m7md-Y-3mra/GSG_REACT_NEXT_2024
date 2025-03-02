@@ -2,6 +2,9 @@
   --primary-color: #034cd3;
   --border-radius: 6px;
   --shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  --high-priority: #ff0000;
+  --medium-priority: #ffc107;
+  --low-priority: #4caf50;
 }
 
 * {
@@ -19,17 +22,30 @@ body {
   background-color: #eee;
   flex-direction: column;
   gap: 5px;
-  color: #444;
+  color: #fff;
 }
 
 a {
   text-decoration: none;
-  color: #222;
+  color: inherit;
 }
 
 button {
   border:none;
   outline: none;
+}
+
+
+.high {
+  background-color: var(--high-priority);
+}
+
+.medium {
+  background-color: var(--medium-priority);
+}
+
+.low {
+  background-color: var(--low-priority);
 }
 
 .loader {

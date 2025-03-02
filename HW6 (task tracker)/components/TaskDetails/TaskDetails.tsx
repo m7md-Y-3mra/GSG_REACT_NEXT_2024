@@ -1,5 +1,5 @@
-'use client'
-import React, { FC, useRef } from "react";
+"use client";
+import React, { FC, useRef, useState } from "react";
 import styles from "./TaskDetails.module.css";
 import Image from "next/image";
 import pendingIcon from "@/public/pending.png";
@@ -10,37 +10,44 @@ import { Todo } from "@/types/types";
 interface TaskDetailsProps {
   todo: Todo;
 }
+
 const TaskDetails: FC<TaskDetailsProps> = ({ todo }) => {
+  const [isCopied, setIsCopied] = useState(false);
   const clipboardRef = useRef<Clipboard>(navigator.clipboard);
 
   const handleCopyTitle = async () => {
-    if (!todo?.title) return;
-
     try {
       await clipboardRef.current.writeText(todo.title);
+      setIsCopied(true);
       console.log(`"${todo?.title}" was copied to your clipboard.`);
     } catch (err) {
       console.error(`Error copying text to clipboard: ${err}`);
+      setIsCopied(false);
     }
   };
 
   return (
     <div>
-      <div className={styles.wrapper}>
+      <div className={`${styles.wrapper} ${todo.priority}`}>
         <Image
           src={todo?.completed ? completedIcon : pendingIcon}
           alt={todo?.completed ? "Completed task" : "Pending task"}
           width={150}
           height={150}
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
         <div>{todo?.id}</div>
-        <div onClick={handleCopyTitle}>{todo?.title}</div>
+        <div>{todo?.title}</div>
         <div>{todo?.completed ? "completed" : "pending"}</div>
+        <div>{todo.priority}</div>
       </div>
-      <Link className={styles.link} href="/">
-        back to home
-      </Link>
+      <div className={styles.btns}>
+        <Link className={styles.link} href="/">
+          back to home
+        </Link>
+        <button onClick={handleCopyTitle} className={styles.link}>
+          {isCopied ? "Copied!" : "Copy Title"}
+        </button>
+      </div>
     </div>
   );
 };

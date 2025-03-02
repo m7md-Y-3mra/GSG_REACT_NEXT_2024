@@ -3,20 +3,23 @@ import React, { FC } from "react";
 import pendingIcon from '@/public/pending.png';
 import completedIcon from '@/public/check-mark.png';
 import styles from './TaskItem.module.css';
+import { Todo } from "@/types/types";
+import Link from "next/link";
 
 interface TaskItemProps {
-  title: string;
-  completed: boolean; 
+  todo: Todo
 }
 
-const TaskItem:FC<TaskItemProps> = ({title, completed}) => {
-  const icon = completed ? completedIcon : pendingIcon;
+const TaskItem:FC<TaskItemProps> = ({todo}) => {
+  const icon = todo.completed ? completedIcon : pendingIcon;
 
   return (
-    <div className={styles.wrapper}>
-      <div>{title}</div>
-      <Image src={icon} alt='status task icon' width={25} loading="lazy"	/>
+    <Link href={`/task/${todo.id}`}>
+    <div className={`${styles.wrapper} ${todo.priority}`}>
+      <div>{todo.title}</div>
+      <Image src={icon} alt='status task icon' width={25} height={25} />
     </div>
+    </Link>
   );
 };
 
